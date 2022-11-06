@@ -82,7 +82,7 @@ while True:
             write_ws.cell(no + 1, 4, "기타 웹 에러페이지")
 
         if "error page test" in response.text:
-            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지" + bcolors.ENDC)
+            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지(error page test)" + bcolors.ENDC)
             write_ws.cell(no + 1, 1, str(no))
             write_ws.cell(no + 1, 2, line)
             write_ws.cell(no + 1, 3, "양호")
@@ -102,14 +102,14 @@ while True:
             write_ws.cell(no + 1, 4, "페이지 노출(WAS 404 페이지)")
 
         if "Wrong approach path" in response.text:
-            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지" + bcolors.ENDC)
+            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지(Wrong approach path)" + bcolors.ENDC)
             write_ws.cell(no + 1, 1, str(no))
             write_ws.cell(no + 1, 2, line)
             write_ws.cell(no + 1, 3, "양호")
             write_ws.cell(no + 1, 4, "별도의 접근제어 페이지(Wrong approach path)")
 
         if "/error/error_img" in response.text:
-            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지" + bcolors.ENDC)
+            print(str(no) + " " + bcolors.OKGREEN + line + ": 양호 - 별도의 접근제어 페이지(/error/error_img)" + bcolors.ENDC)
             write_ws.cell(no + 1, 1, str(no))
             write_ws.cell(no + 1, 2, line)
             write_ws.cell(no + 1, 3, "양호")
