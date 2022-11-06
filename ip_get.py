@@ -8,3 +8,4 @@ def get_ip(url):
     port = o.port or (443 if o.scheme == 'https' else 80)
     ip_addr = socket.getaddrinfo(hostname, port)[0][4][0]
     return ip_addr
+
