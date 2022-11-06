@@ -32,10 +32,21 @@ print("================진단 중================")
 while True:
 
     try:
-        # IP 목록
-        line = f.readline().rstrip()
-        if not line: break
-        no += 1
+
+        mod_select = input("입력 모드를 선택하세요 \n1.직접 입력 모드  \n2.list 입력 모드 (list.txt 입력) \n3.종료 \n  ")
+        if mod_select == '1':
+            line = str(input(" 점검 대상 도메인 입력 (Enter로 종료) :  "))
+            no += 1
+
+        if mod_select == '2':
+            line = f.readline().rstrip()
+            if not line: break
+            no += 1
+
+        if mod_select == '3':
+            break;
+
+
 
         # Request 요청
         response = requests.get(url=line, timeout=3, verify=False)
@@ -46,7 +57,7 @@ while True:
         # 분류 및 예외처리 if 문
 
         if "Please enable JavaScript" in response.text:
-            print(str(no) + " " + bcolors.WARNING + line + ": 수동점검 - Enable JS" + bcolors.ENDC)
+            print(str(no) + " " + bcolors.WARNING + line + ": 수동점검필요 - Enable JS" + bcolors.ENDC)
             # warningSite.append = no
             write_ws.cell(no + 1, 1, str(no))
             write_ws.cell(no + 1, 2, line)
