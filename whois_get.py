@@ -10,3 +10,8 @@ def whois_get(url):
    except whois.parser.PywhoisError :
       print("domain lookup fail")
 
+
+whois_get("https://www.ssjoy.org/dho/")
+
+#메인에서 실행 - 텍스트 파일로 정리
+# 저장폴더 열기
