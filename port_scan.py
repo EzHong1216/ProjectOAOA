@@ -3,6 +3,17 @@ import socket
 import ipaddress
 import re
 
+class bcolors:
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+
 def port_scan():
     port_regex = re.compile("([0-9]+){1,5}-([0-9]+){1,5}")
     ip_regex1 = re.compile("^\d")
@@ -31,8 +42,8 @@ def port_scan():
     while True:
         port_min = 0
         port_max = 65535
-        print('경고! 정보통신망법은 ‘정당한 접근권한 없이 또는 허용된 접근권한을 초과해 정보통신망에 침입’하는 행위를 금지하고 있습니다.'
-              '\n본 프로그램을 이용한 사전 협의 없는 포트 스캔을 금지합니다! ')
+        print('경고! 정보통신망법은 ‘정당한 접근권한 없이 또는 허용된 접근권한을 초과해 정보통신망에 침입’하는 행위를 금지하고 있습니다.')
+        print('\n본 프로그램을 이용한 사전 협의 없는 포트 스캔을 금지합니다!')
         port_range = input("스캔 할 포트 범위 지정(ex:0-65535) :")
         port_range_valid = port_regex.search(port_range.replace(" ", ""))
         if port_range_valid:
@@ -56,6 +67,7 @@ def port_scan():
                 pass
         for port in valid_ports:
                 print(f"연결된 포트 : {port}")
+
                 open_ports.append(port)
 
         i = i + 1

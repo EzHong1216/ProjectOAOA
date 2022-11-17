@@ -34,9 +34,9 @@ def web_weak_scan():
 
         try:
 
-            mod_select = input("입력 모드를 선택하세요 \n1.직접 입력 모드  \n2.list 입력 모드 (list.txt 입력) \n3.종료 \n  ")
+            mod_select = input("입력 모드를 선택하세요 \n1.직접 입력 모드  \n2.list 입력 모드 (list.txt 입력) \n3.종료 \n")
             if mod_select == '1':
-                line = str(input(" 점검 대상 도메인 입력 (Enter로 종료) :  "))
+                line = str(input(" 점검 대상 도메인 입력 (Enter로 종료) : "))
                 no += 1
 
             if mod_select == '2':
@@ -45,7 +45,7 @@ def web_weak_scan():
                 no += 1
 
             if mod_select == '3':
-                break;
+                break
 
 
 
