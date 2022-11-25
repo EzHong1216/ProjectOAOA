@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from get_whois import get_whois
 from get_ip import get_ip
+from get_robot import get_robot
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -21,6 +22,10 @@ class WindowClass(QMainWindow, form_class) :
         #ip추출 탭 기능 연결
         self.ipget_GoButton.clicked.connect(self.ipget_GoFunc)
         self.ipget_Input.returnPressed.connect(self.ipget_GoFunc)
+        
+        #robot추출 탭 기능 연결
+        self.robot_GoButton.clicked.connect(self.robot_GoFunc)
+        self.robot_Input.returnPressed.connect(self.robot_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -39,6 +44,14 @@ class WindowClass(QMainWindow, form_class) :
     def ipget_GoFunc(self):
         result = get_ip(self.ipget_Input.text())
         self.ipget_Result.setText(result)
+    
+#robot추출 탭 메소드
+    #입력창에 있는 URL에서 robots.txt 추출후 저장
+    def robot_GoFunc(self):
+        result = get_robot(self.robot_Input.text())
+        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
+        with open(filename[0], 'w') as f:
+            f.write(result)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스

@@ -1,5 +1,6 @@
 debug.log
 
 *.json
+robots.txt
 /.vscode
 /__pycache__
