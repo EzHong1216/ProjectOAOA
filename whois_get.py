@@ -1,7 +1,7 @@
 import whois
 
 
-def whois_get(url):
+def get_whois(url):
 
    try:
       domain_info = whois.whois(url)
@@ -11,7 +11,7 @@ def whois_get(url):
       return("domain lookup fail")
 
 def main():
-   print(whois_get("https://www.ssjoy.org/dho/"))
+   print(get_whois("https://www.ssjoy.org/dho/"))
 
 if __name__ == "__main__":
    main()

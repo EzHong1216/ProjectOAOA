@@ -1,7 +1,8 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from whois_get import whois_get
+from whois_get import get_whois
+from ip_get import get_ip
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -16,11 +17,15 @@ class WindowClass(QMainWindow, form_class) :
         self.whoisGoButton.clicked.connect(self.whoisGoFunc)
         self.whoisInput.returnPressed.connect(self.whoisGoFunc)
         self.whoisSaveButton.clicked.connect(self.whoisSaveFunc)
+        
+        #ip추출 탭 기능 연결
+        self.ipget_GoButton.clicked.connect(self.ipget_GoFunc)
+        self.ipget_Input.returnPressed.connect(self.ipget_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
     def whoisGoFunc(self):
-        result = whois_get(self.whoisInput.text())
+        result = get_whois(self.whoisInput.text())
         self.whoisLogBox.setPlainText(result)
     
     #입력창에 있는 값을 JSON 파일로 저장
@@ -29,6 +34,11 @@ class WindowClass(QMainWindow, form_class) :
         with open(filename[0], 'w') as f:
             f.write(self.whoisLogBox.toPlainText())
             
+#ip추출 탭 메소드
+    #입력창에 있는 URL로 ip추출
+    def ipget_GoFunc(self):
+        result = get_ip(self.ipget_Input.text())
+        self.ipget_Result.setText(result)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
