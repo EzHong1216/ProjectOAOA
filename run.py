@@ -4,6 +4,7 @@ from PyQt5 import uic
 from get_whois import get_whois
 from get_ip import get_ip
 from get_robot import get_robot
+from domain import get_domain_name
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -26,6 +27,13 @@ class WindowClass(QMainWindow, form_class) :
         #robot추출 탭 기능 연결
         self.robot_GoButton.clicked.connect(self.robot_GoFunc)
         self.robot_Input.returnPressed.connect(self.robot_GoFunc)
+        
+        #domain추출 탭 기능 연결
+        self.domain_IsSub = True
+        self.domain_GoButton.clicked.connect(self.domain_GoFunc)
+        self.domain_Input.returnPressed.connect(self.domain_GoFunc)
+        self.domain_RadioSub.clicked.connect(self.domain_RadioFunc)
+        self.domain_RadioMain.clicked.connect(self.domain_RadioFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -52,6 +60,17 @@ class WindowClass(QMainWindow, form_class) :
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
         with open(filename[0], 'w') as f:
             f.write(result)
+
+#domain추출 탭 메소드
+    def domain_RadioFunc(self):
+        if self.domain_RadioSub.isChecked():
+            self.domain_IsSub = True
+        elif self.domain_RadioMain.isChecked():
+            self.domain_IsSub = False
+    
+    def domain_GoFunc(self):
+        result = get_domain_name(self.domain_Input.text())
+        self.domain_Result.setText(result)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
