@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from whois_get import get_whois
-from ip_get import get_ip
+from get_whois import get_whois
+from get_ip import get_ip
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]

@@ -1,8 +1,8 @@
 import general
 import port_scan
 import domain
-import ip_get
-import robot_get
-import whois_get
+import get_ip
+import get_robot
+import get_whois
 
 print("")
