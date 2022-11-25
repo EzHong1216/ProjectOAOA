@@ -30,7 +30,7 @@ class WindowClass(QMainWindow, form_class) :
     
     #입력창에 있는 값을 JSON 파일로 저장
     def whoisSaveFunc(self):
-        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./result.json', filter='JSON (*.json)')
+        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./whois_result.json', filter='JSON (*.json)')
         with open(filename[0], 'w') as f:
             f.write(self.whoisLogBox.toPlainText())
             
