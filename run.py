@@ -17,6 +17,7 @@ class WindowClass(QMainWindow, form_class) :
         self.whoisInput.returnPressed.connect(self.whoisGoFunc)
         self.whoisSaveButton.clicked.connect(self.whoisSaveFunc)
     
+#Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
     def whoisGoFunc(self):
         result = whois_get(self.whoisInput.text())
