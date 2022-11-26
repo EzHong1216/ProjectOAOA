@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -281,10 +281,10 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="whoisInput"/>
+          <widget class="QLineEdit" name="whois_Input"/>
          </item>
          <item>
-          <widget class="QPushButton" name="whoisGoButton">
+          <widget class="QPushButton" name="whois_GoButton">
            <property name="text">
             <string>GO!</string>
            </property>
@@ -293,14 +293,14 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item>
-        <widget class="QTextEdit" name="whoisLogBox">
+        <widget class="QTextEdit" name="whois_LogBox">
          <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="whoisSaveButton">
+        <widget class="QPushButton" name="whois_SaveButton">
          <property name="text">
           <string>저장</string>
          </property>

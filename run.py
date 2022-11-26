@@ -16,9 +16,9 @@ class WindowClass(QMainWindow, form_class) :
         self.setupUi(self)
         
         #whois 탭 기능 연결
-        self.whoisGoButton.clicked.connect(self.whoisGoFunc)
-        self.whoisInput.returnPressed.connect(self.whoisGoFunc)
-        self.whoisSaveButton.clicked.connect(self.whoisSaveFunc)
+        self.whois_GoButton.clicked.connect(self.whois_GoFunc)
+        self.whois_Input.returnPressed.connect(self.whois_GoFunc)
+        self.whois_SaveButton.clicked.connect(self.whois_SaveFunc)
         
         #ip추출 탭 기능 연결
         self.ipget_GoButton.clicked.connect(self.ipget_GoFunc)
@@ -37,15 +37,15 @@ class WindowClass(QMainWindow, form_class) :
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
-    def whoisGoFunc(self):
-        result = get_whois(self.whoisInput.text())
-        self.whoisLogBox.setPlainText(result)
+    def whois_GoFunc(self):
+        result = get_whois(self.whois_Input.text())
+        self.whois_LogBox.setPlainText(result)
     
     #입력창에 있는 값을 JSON 파일로 저장
-    def whoisSaveFunc(self):
+    def whois_SaveFunc(self):
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./whois_result.json', filter='JSON (*.json)')
         with open(filename[0], 'w') as f:
-            f.write(self.whoisLogBox.toPlainText())
+            f.write(self.whois_LogBox.toPlainText())
             
 #ip추출 탭 메소드
     #입력창에 있는 URL로 ip추출
