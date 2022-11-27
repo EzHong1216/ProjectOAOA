@@ -5,6 +5,7 @@ from get_whois import get_whois
 from get_ip import get_ip
 from get_robot import get_robot
 from domain import get_domain_name
+from port_scan import scan_port, is_Valid_Port
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -34,6 +35,9 @@ class WindowClass(QMainWindow, form_class) :
         self.domain_Input.returnPressed.connect(self.domain_GoFunc)
         self.domain_RadioSub.clicked.connect(self.domain_RadioFunc)
         self.domain_RadioMain.clicked.connect(self.domain_RadioFunc)
+        
+        #port스캔 탭 기능 연결
+        self.port_GoButton.clicked.connect(self.port_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -71,6 +75,40 @@ class WindowClass(QMainWindow, form_class) :
     def domain_GoFunc(self):
         result = get_domain_name(self.domain_Input.text())
         self.domain_Result.setText(result)
+
+#port스캔 탭 메소드
+    def port_GoFunc(self):
+        if self.port_PortMax.value() < self.port_PortMin.value():
+            self.port_Result.setText("스캔할 포트의 범위가 유효하지 않습니다")
+            return
+        
+        self.port_Result.setText("")
+        total_result = {}
+        for i in range(1, self.port_LoopNum.value()+1):
+            self.port_Result.append(f"{i}회차")
+            loop_result = scan_port(self.port_IPInput.text(), self.port_PortMin.value(), self.port_PortMax.value())
+            
+            for p in range(self.port_PortMin.value(), self.port_PortMax.value()+1):
+                if p in loop_result:
+                    self.port_Result.append(f"{p}번 포트 연결됨")
+                else:
+                    self.port_Result.append(f"{p}번 포트 닫힘")
+            self.port_Result.append("")
+            
+            for p in loop_result:
+                try:
+                    total_result[p] += 1
+                except:
+                    total_result[p] = 1
+        
+        self.port_Result.append(f"접속한 주소: {self.port_IPInput.text()}")
+        self.port_Result.append(f"총 {self.port_LoopNum.value()}번 접속 시도 하였습니다")
+        if len(total_result) == 0:
+            self.port_Result.append(f"연결된 포트 없음")
+            return
+        for key, value in total_result.items():
+            self.port_Result.append(f"{key}번 포트에 {value}회 연결됨")
+            
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
