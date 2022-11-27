@@ -57,6 +57,8 @@ class WindowClass(QMainWindow, form_class) :
     #입력창에 있는 값을 JSON 파일로 저장
     def whois_SaveFunc(self):
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./whois_result.json', filter='JSON (*.json)')
+        if filename == "":
+            return
         with open(filename[0], 'w') as f:
             f.write(self.whois_LogBox.toPlainText())
             
@@ -69,8 +71,10 @@ class WindowClass(QMainWindow, form_class) :
 #robot추출 탭 메소드
     #입력창에 있는 URL에서 robots.txt 추출후 저장
     def robot_GoFunc(self):
-        result = get_robot(self.robot_Input.text())
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
+        if filename == "":
+            return
+        result = get_robot(self.robot_Input.text())
         with open(filename[0], 'w') as f:
             f.write(result)
 
@@ -128,6 +132,8 @@ class WindowClass(QMainWindow, form_class) :
     def weak_GoListFunc(self):
         self.weak_Result.setText("")
         filename = QFileDialog.getOpenFileName(self, caption='Open List', directory='./', filter='txt (*.txt)')
+        if filename == "":
+            return
         with open(filename[0], 'r') as f:
             urls = f.readlines()
             result = self.weak_scanner.scan(urls)
@@ -137,11 +143,15 @@ class WindowClass(QMainWindow, form_class) :
     def weak_SaveLogFunc(self):
         result = self.weak_Result.toPlainText()
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
+        if filename == "":
+            return
         with open(filename[0], 'w') as f:
             f.write(result)
     
     def weak_SaveExcelFunc(self):
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./result.xlsx', filter='Excel file (*.xlsx)')
+        if filename == "":
+            return
         self.weak_scanner.save_Excel(filename[0])
 
 def main():
