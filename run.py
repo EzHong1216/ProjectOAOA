@@ -120,11 +120,13 @@ class WindowClass(QMainWindow, form_class) :
             
 #취약점검 탭 메소드
     def weak_GoFunc(self):
+        self.weak_Result.setText("")
         result = self.weak_scanner.scan([self.weak_URLInput.text()])
         for s in result:
             self.weak_Result.append(s)
     
     def weak_GoListFunc(self):
+        self.weak_Result.setText("")
         filename = QFileDialog.getOpenFileName(self, caption='Open List', directory='./', filter='txt (*.txt)')
         with open(filename[0], 'r') as f:
             urls = f.readlines()
@@ -140,7 +142,7 @@ class WindowClass(QMainWindow, form_class) :
     
     def weak_SaveExcelFunc(self):
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./result.xlsx', filter='Excel file (*.xlsx)')
-        self.weak_scanner.save_Excel(filename)
+        self.weak_scanner.save_Excel(filename[0])
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
