@@ -42,6 +42,7 @@ class web_weak_scanner:
         self.reset_WB()
         result = []
         for url in url_list:
+            url = url.rstrip()
             try:
                 # Request 요청
                 response = requests.get(url=url, timeout=3, verify=False)
