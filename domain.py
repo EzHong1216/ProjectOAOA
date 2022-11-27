@@ -4,11 +4,15 @@ import tldextract as tld
 def top_name_get(url):
     get_data = tld.extract(url).domain ,tld.extract(url).suffix
     get_name = ".".join(get_data)
+    if get_name.startswith("."):
+        get_name = get_name[1:]
     return get_name
 
 def sub_name_get(url):
     get_data = tld.extract(url).subdomain,tld.extract(url).domain, tld.extract(url).suffix
     get_name = ".".join(get_data)
+    if get_name.startswith("."):
+        get_name = get_name[1:]
     return get_name
 
 def get_domain_name(url, isSub = True):
