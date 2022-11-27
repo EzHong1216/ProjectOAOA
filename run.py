@@ -6,6 +6,7 @@ from get_ip import get_ip
 from get_robot import get_robot
 from domain import get_domain_name
 from port_scan import scan_port, is_Valid_Port
+from web_weak_scan import web_weak_scanner
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -38,6 +39,14 @@ class WindowClass(QMainWindow, form_class) :
         
         #port스캔 탭 기능 연결
         self.port_GoButton.clicked.connect(self.port_GoFunc)
+        
+        #취약점검 탭 기능 연결
+        self.weak_GoButton.clicked.connect(self.weak_GoFunc)
+        self.weak_URLInput.returnPressed.connect(self.weak_GoFunc)
+        self.weak_ListGoButton.clicked.connect(self.weak_GoListFunc)
+        self.weak_LogSaveButton.clicked.connect(self.weak_SaveLogFunc)
+        self.weak_LogExcelButton.clicked.connect(self.weak_SaveExcelFunc)
+        self.weak_scanner = web_weak_scanner()
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -109,6 +118,29 @@ class WindowClass(QMainWindow, form_class) :
         for key, value in total_result.items():
             self.port_Result.append(f"{key}번 포트에 {value}회 연결됨")
             
+#취약점검 탭 메소드
+    def weak_GoFunc(self):
+        result = self.weak_scanner.scan([self.weak_URLInput.text()])
+        for s in result:
+            self.weak_Result.append(s)
+    
+    def weak_GoListFunc(self):
+        filename = QFileDialog.getOpenFileName(self, caption='Open List', directory='./', filter='txt (*.txt)')
+        with open(filename[0], 'r') as f:
+            urls = f.readlines()
+            result = self.weak_scanner.scan(urls)
+            for s in result:
+                self.weak_Result.append(s)
+    
+    def weak_SaveLogFunc(self):
+        result = self.weak_Result.toPlainText()
+        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
+        with open(filename[0], 'w') as f:
+            f.write(result)
+    
+    def weak_SaveExcelFunc(self):
+        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./result.xlsx', filter='Excel file (*.xlsx)')
+        self.weak_scanner.save_Excel(filename)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스

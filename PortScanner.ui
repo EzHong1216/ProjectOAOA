@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -466,10 +466,10 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_8"/>
+          <widget class="QLineEdit" name="weak_URLInput"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="weak_GoButton">
            <property name="text">
             <string>GO!</string>
            </property>
@@ -488,26 +488,26 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="weak_ListGoButton">
          <property name="text">
           <string>리스트 파일 선택</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit_3"/>
+        <widget class="QTextEdit" name="weak_Result"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
-          <widget class="QPushButton" name="pushButton_10">
+          <widget class="QPushButton" name="weak_LogSaveButton">
            <property name="text">
             <string>로그 저장</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="weak_LogExcelButton">
            <property name="text">
             <string>엑셀로 저장</string>
            </property>
@@ -529,12 +529,6 @@ p, li { white-space: pre-wrap; }
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHello">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
-   <addaction name="menuHello"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
