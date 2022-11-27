@@ -184,6 +184,8 @@ class web_weak_scanner:
                 result.append(str(self.no) + " " + bcolors.OKCYAN + url + ": 양호 - 예외처리(SSLError)" + bcolors.ENDC)
                 self.append_Data(url, "양호", "예외처리(응답없음)")
                 pass
+            
+        return result
     
     def save_Excel(self, directory: str):
         self.wb.save(directory)
