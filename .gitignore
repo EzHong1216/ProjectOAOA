@@ -2,5 +2,6 @@ debug.log
 
 *.json
 robots.txt
+*.xlsx
 /.vscode
 /__pycache__
