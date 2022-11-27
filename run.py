@@ -127,7 +127,12 @@ class WindowClass(QMainWindow, form_class) :
 #취약점검 탭 메소드
     def weak_GoFunc(self):
         self.weak_Result.setText("")
-        result = self.weak_scanner.scan([self.weak_URLInput.text()])
+        url = self.weak_URLInput.text()
+        if url == '':
+            return
+        if not url.startswith("http"):
+            url = "http://" + url
+        result = self.weak_scanner.scan([url])
         for s in result:
             self.weak_Result.append(s)
     
@@ -138,6 +143,8 @@ class WindowClass(QMainWindow, form_class) :
             return
         with open(filename[0], 'r') as f:
             urls = f.readlines()
+            if len(urls) == 0:
+                return
             result = self.weak_scanner.scan(urls)
             for s in result:
                 self.weak_Result.append(s)
