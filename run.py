@@ -74,6 +74,8 @@ class WindowClass(QMainWindow, form_class) :
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
         if filename == "":
             return
+        if self.robot_Input.text() == "":
+            return
         result = get_robot(self.robot_Input.text())
         with open(filename[0], 'w') as f:
             f.write(result)
