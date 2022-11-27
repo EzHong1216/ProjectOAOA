@@ -15,7 +15,7 @@ class bcolors:
     UNDERLINE = "\033[4m"
 
 #특정 아이피의 특정 포트가 열려 있는가?
-def is_Valid_Port(ip_addr: str, port: int = 80)->bool:
+def is_Valid_Port(ip_addr: str, port: int = 80) -> bool:
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(0.5)
@@ -27,23 +27,6 @@ def is_Valid_Port(ip_addr: str, port: int = 80)->bool:
 
 #특정 아이피의 포트들을 스캔
 def scan_port(url_input: str, port_min: int=80, port_max: int=90) -> list:
-    '''
-    #port_regex = re.compile("([0-9]+){1,5}-([0-9]+){1,5}")
-    ip_regex1 = re.compile("^\d")
-    ip_regex2 = re.compile("^www\.")
-    
-    ip_addr_input = url_input
-    try:
-        ip_regex1_valid = ip_regex1.search(ip_addr_input.replace(" ", ""))
-        ip_regex2_valid = ip_regex2.search(ip_addr_input.replace(" ", ""))
-        if ip_regex1_valid:
-            ip_addr = ipaddress.ip_address(ip_addr_input)
-        elif ip_regex2_valid:
-            ip_addr = ip_addr_input
-    except:
-        print("잘못된 주소 형식입니다.")
-        return'''
-
     valid_ports = []
 
     for port in range(port_min, port_max + 1):
@@ -52,18 +35,6 @@ def scan_port(url_input: str, port_min: int=80, port_max: int=90) -> list:
             valid_ports.append(port)
     
     return valid_ports
-
-    total_ports = {}
-    for value in open_ports:
-        try:
-            total_ports[value] += 1
-        except:
-            total_ports[value] = 1
-    #print(bcolors.OKBLUE +bcolors.BOLD+'\n접속 주소 '+str(ip_addr_input)+ bcolors.ENDC)
-    #print(bcolors.OKBLUE +bcolors.BOLD+' 총 ' + str(loop_num)+' 번 접속 시도 하였습니다.'+ bcolors.ENDC)
-    for key, value in total_ports.items():
-        print(bcolors.OKGREEN +bcolors.BOLD+'연결된 포트 번호 : ' + str(key) +'\n연결 횟수 : '+ str(value)+ bcolors.ENDC)
-    return total_ports
 
 def main():
     port_regex = re.compile("([0-9]+){1,5}-([0-9]+){1,5}")
