@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtTest import QTest
 from get_whois import get_whois
 from get_ip import get_ip
 from get_robot import get_robot
@@ -109,6 +110,7 @@ class WindowClass(QMainWindow, form_class) :
                 else:
                     self.port_Result.append(f"{p}번 포트 닫힘")
             self.port_Result.append("")
+            QTest.qWait(1)
             
             for p in loop_result:
                 try:
