@@ -1,5 +1,9 @@
 import requests
 from openpyxl import Workbook
+from bs4 import BeautifulSoup
+import urllib.request, urllib.error, urllib.parse
+import pprint
+from PyQt5.QtWidgets import QMessageBox
 
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
@@ -37,7 +41,9 @@ class web_weak_scanner:
         ws.cell(self.no + 1, 3, result)
         ws.cell(self.no + 1, 4, etc)
         self.no += 1
-    
+
+    #사이트 노출 취약 스캔
+
     def scan(self, url_list: list):
         self.reset_WB()
         result = []
@@ -186,7 +192,53 @@ class web_weak_scanner:
                 pass
             
         return result
-    
+    # 사이트 보안 취약점 스캔 Ex: admin.php SSL 인증서 등
+    # webvulnerscan // reference: https://github.com/Dk20/WebVulnerabilityScanner
+    def vulnerscan(self):
+        url = self.le.text()
+        if url == "":
+            QMessageBox.about(self, "Notice", "please input address")
+        else:
+            self.tb.append("Vulner Scanning...")
+            try:
+                    page=urllib.request.urlopen(url)
+                    parts = url.split("/")
+                    self.tb.append(parts[-1])
+                    if (parts[-1]=="admin"):
+                            self.tb.append("         "+"         "+"Admin label vulnerability!!!!")
+                    elif (parts[-1]=="login"):
+                            self.tb.append("         "+"         "+"Login label vulnerability!!")
+                    else :
+                            soup = BeautifulSoup(page,"html.parser")
+                            for form in soup.findAll('form'):
+                                    self.tb.append("         "+"         Form Method:",form.get('method'))
+                                    if(form.get('method')=='GET' or form.get('method')=='get'):
+                                            self.tb.append("         "+"         "+"request sent via get method... data Vulnerable!!!")
+                            try:
+                                    result=requests.get(url+"'")
+                                    self.tb.append("         "+"         "+"On preliminary sql injection status code :",str(result.status_code))
+                                    self.tb.append("         "+"         ")
+                                    self.tb.append("         "+"         ")
+                                    self.tb.append("         "+"         "+"On preliminary sql injection response header from server :")
+                                    self.tb.append("         "+"         ")
+                                    #print("         "+"         ",result.headers)
+                                    pprint(result.headers,width=1,indent=3)
+                                    self.tb.append("         "+"         ")
+                                    self.tb.append("         "+"         ")
+                                    self.tb.append("         "+"         ")
+                                    self.tb.append("         "+"         ")
+                                    a=[404,500,408,302]
+                                    if(result.status_code in a):
+                                            self.tb.append("         "+"         "+"Wow! I think this site is vulnerable. Partial or 100% injection attacks are possible")
+                            except:
+                                    self.tb.append("         "+"         "+"Request denied, This page is safe...... :-)")
+            except:
+                    self.tb.append("         "+"         "+"This site does not have an ssl certificate... Vulnerable!!!")
+                    self.tb.append("         "+"         "+"Exiting..........")
+
+            self.tb.append("")
+            self.le.clear()
+
     def save_Excel(self, directory: str):
         self.wb.save(directory)
 
