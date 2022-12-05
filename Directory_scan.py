@@ -19,9 +19,3 @@ def dirscan(url):
 
     f.close()
     return result
-
-def main():
-    print(dirscan("http://bellsoft.net"))
-    
-if __name__ == "__main__":
-    main()
