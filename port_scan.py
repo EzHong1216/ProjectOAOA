@@ -2,8 +2,8 @@
 import socket
 import ipaddress
 from PyQt5.QtWidgets import QMessageBox
-from socket import *
 import re
+from PyQt5.QtTest import QTest
 
 class bcolors:
     HEADER = "\033[95m"
@@ -39,36 +39,34 @@ def scan_port(url_input: str, port_min: int=80, port_max: int=90) -> list:
     return valid_ports
 
 #주요 포트 빠른스캔
-def Fastscan(self):
-    url = self.le.text()
-    if url == "":
-        QMessageBox.about(self, "Notice", "please input address")
-    else:
-        s = socket(AF_INET, SOCK_DGRAM)
-        s.connect((url,80))
+def Fastscan(url):
+    result = []
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.5)
+        s.connect((url, 80))
         ipscan = s.getsockname()[0]
 
-        port = [80, 20, 21, 22, 23, 25, 53, 5357, 110, 123, 161, 443, 1433, 3306, 1521, 8080, 135, 139, 137, 138, 445, 514, 8443, 3389, 8090, 42, 70, 79, 88, 118, 156, 220]
-        host = url
+    port = [80, 20, 21, 22, 23, 25, 53, 5357, 110, 123, 161, 443, 1433, 3306, 1521, 8080, 135, 139, 137, 138, 445, 514, 8443, 3389, 8090, 42, 70, 79, 88, 118, 156, 220]
+    host = url
 
-        self.tb.append("IP and Port Scanning...")
-        self.tb.append('[◈] IP → '+ipscan)
+    result.append("IP and Port Scanning...")
+    result.append('[◈] IP → '+ipscan)
+    QTest.qWait(1)
+    
+    target_ip = socket.gethostbyname(host)
+    opened_ports = []
+    for p in port:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(0.5)
+            results = sock.connect_ex((target_ip, p))
 
-        target_ip = gethostbyname(host)
-        opened_ports = []
-        for p in port:
-            sock = socket(AF_INET, SOCK_STREAM)
-            sock.settimeout(3)
-            result = sock.connect_ex((target_ip, p))
+        if results == 0:
+            opened_ports.append(str(p))
 
-            if result == 0:
-                opened_ports.append(str(p))
+    for i in opened_ports:
+        result.append('[◈] Open Port : '+ i)
 
-        for i in opened_ports:
-            self.tb.append('[◈] Open Port : '+ i)
-
-        self.tb.append("")
-        self.le.clear()
+    return result
 
 
 def main():

@@ -6,7 +6,7 @@ from get_whois import get_whois
 from get_ip import get_ip
 from get_robot import get_robot
 from domain import get_domain_name
-from port_scan import scan_port, is_Valid_Port
+from port_scan import scan_port, is_Valid_Port, Fastscan
 from web_weak_scan import web_weak_scanner
 from scan_vulnerability import vulnerscan
 from Directory_scan import dirscan_spec
@@ -58,6 +58,10 @@ class WindowClass(QMainWindow, form_class) :
         #디렉토리 접근 점검 탭 기능 연결
         self.directory_GoButton.clicked.connect(self.directory_GoFunc)
         self.directory_Input.returnPressed.connect(self.directory_GoFunc)
+        
+        #빠른 포트스캔 탭 기능 연결
+        self.fastport_GoButton.clicked.connect(self.fastport_GoFunc)
+        self.fastport_IPInput.returnPressed.connect(self.fastport_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -212,6 +216,15 @@ class WindowClass(QMainWindow, form_class) :
             if not data: break
 
         f.close()
+        
+#빠른 포트스캔 탭 메소드
+    def fastport_GoFunc(self):
+        self.fastport_Result.setText("Start. Wait...")
+        url = self.fastport_IPInput.text()
+        QTest.qWait(1)
+        result = Fastscan(url)
+        for s in result:
+            self.fastport_Result.append(s)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
