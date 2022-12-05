@@ -9,6 +9,7 @@ from domain import get_domain_name
 from port_scan import scan_port, is_Valid_Port
 from web_weak_scan import web_weak_scanner
 from scan_vulnerability import vulnerscan
+from Directory_scan import dirscan_spec
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -53,6 +54,10 @@ class WindowClass(QMainWindow, form_class) :
         #웹 보안 취약점검 탭 기능 연결
         self.vulner_GoButton.clicked.connect(self.vulner_GoFunc)
         self.vulner_Input.returnPressed.connect(self.vulner_GoFunc)
+        
+        #디렉토리 접근 점검 탭 기능 연결
+        self.directory_GoButton.clicked.connect(self.directory_GoFunc)
+        self.directory_Input.returnPressed.connect(self.directory_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -182,6 +187,26 @@ class WindowClass(QMainWindow, form_class) :
         result = vulnerscan(url)
         for s in result:
             self.vulner_Result.append(s)
+
+#디렉토리 접근 점검 탭 메소드
+    def directory_GoFunc(self):
+        self.directory_Result.setText("Start. Wait...")
+        url = self.directory_Input.text()
+        if url == '':
+            return
+        if not url.startswith("http"):
+            url = "http://" + url
+        self.directory_Result.append("Directory Scanning...")
+        QTest.qWait(1)
+
+        f = open("./dir_scan_list.txt", 'r')
+        while True:
+            data = f.readline()
+            self.directory_Result.append(dirscan_spec(url+data))
+            QTest.qWait(1)
+            if not data: break
+
+        f.close()
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스

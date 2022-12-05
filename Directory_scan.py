@@ -1,21 +1,27 @@
-from PyQt5.QtWidgets import QMessageBox
 import requests
 
-def dirscan(self):
-    url = self.le.text()
-    if url == "":
-        QMessageBox.about(self, "Notice", "please input address")
+def dirscan_spec(url):
+    r = requests.get(url)
+    if r.status_code == 200:
+        return("[◈] Connect → " + url)
     else:
-        self.tb.append("Directory Scanning...")
+        return("[X] Connect Failed: " + url)
+    
+def dirscan(url):
+    result = []
+    result.append("Directory Scanning...")
 
-        f = open("./dir_scan_list.txt", 'r')
-        while True:
-            data = f.readline()
-            r = requests.get(url + data)
-            if r.status_code == 200:
-                self.tb.append("[◈] Connect → " + r.url)
-            if not data: break
+    f = open("./dir_scan_list.txt", 'r')
+    while True:
+        data = f.readline()
+        dirscan_spec(url+data)
+        if not data: break
 
-        self.tb.append("")
-        self.le.clear()
-        f.close()
+    f.close()
+    return result
+
+def main():
+    print(dirscan("http://bellsoft.net"))
+    
+if __name__ == "__main__":
+    main()
