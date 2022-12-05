@@ -1,6 +1,8 @@
 # 타겟 ip or 도메인에 대해 오픈된 포트 스캔
 import socket
 import ipaddress
+from PyQt5.QtWidgets import QMessageBox
+from socket import *
 import re
 
 class bcolors:
@@ -36,6 +38,39 @@ def scan_port(url_input: str, port_min: int=80, port_max: int=90) -> list:
     
     return valid_ports
 
+#주요 포트 빠른스캔
+def Fastscan(self):
+    url = self.le.text()
+    if url == "":
+        QMessageBox.about(self, "Notice", "please input address")
+    else:
+        s = socket(AF_INET, SOCK_DGRAM)
+        s.connect((url,80))
+        ipscan = s.getsockname()[0]
+
+        port = [80, 20, 21, 22, 23, 25, 53, 5357, 110, 123, 161, 443, 1433, 3306, 1521, 8080, 135, 139, 137, 138, 445, 514, 8443, 3389, 8090, 42, 70, 79, 88, 118, 156, 220]
+        host = url
+
+        self.tb.append("IP and Port Scanning...")
+        self.tb.append('[◈] IP → '+ipscan)
+
+        target_ip = gethostbyname(host)
+        opened_ports = []
+        for p in port:
+            sock = socket(AF_INET, SOCK_STREAM)
+            sock.settimeout(3)
+            result = sock.connect_ex((target_ip, p))
+
+            if result == 0:
+                opened_ports.append(str(p))
+
+        for i in opened_ports:
+            self.tb.append('[◈] Open Port : '+ i)
+
+        self.tb.append("")
+        self.le.clear()
+
+
 def main():
     port_regex = re.compile("([0-9]+){1,5}-([0-9]+){1,5}")
     ip_regex1 = re.compile("^\d")
@@ -64,8 +99,11 @@ def main():
     while True:
         port_min = 0
         port_max = 65535
+
         print(bcolors.FAIL +bcolors.BOLD+'경고! 정보통신망법은 ‘정당한 접근권한 없이 또는 허용된 접근권한을 초과해 정보통신망에 침입’하는 행위를 금지하고 있습니다.'
               '\n본 프로그램을 이용한 사전 협의 없는 포트 스캔을 금지합니다! '+ bcolors.ENDC)
+        print(bcolors.FAIL + bcolors.BOLD + '경고! 정보통신망법은 ‘정당한 접근권한 없이 또는 허용된 접근권한을 초과해 정보통신망에 침입’하는 행위를 금지하고 있습니다.'
+                                            '\n본 프로그램을 이용한 사전 협의 없는 포트 스캔을 금지합니다! ' + bcolors.ENDC)
         port_range = input(bcolors.HEADER +bcolors.BOLD+"스캔 할 포트 범위 지정(ex:0-65535) :"+ bcolors.ENDC)
         port_range_valid = port_regex.search(port_range.replace(" ", ""))
         if port_range_valid:
