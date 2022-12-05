@@ -112,6 +112,7 @@ class WindowClass(QMainWindow, form_class) :
         total_result = {}
         for i in range(1, self.port_LoopNum.value()+1):
             self.port_Result.append(f"{i}회차")
+            #IP, 포트 하한값, 포트 상한값을 넣으면 연결된 포트가 리스트로 반환되는 함수
             loop_result = scan_port(self.port_IPInput.text(), self.port_PortMin.value(), self.port_PortMax.value())
             
             for p in range(self.port_PortMin.value(), self.port_PortMax.value()+1):
@@ -137,6 +138,7 @@ class WindowClass(QMainWindow, form_class) :
             self.port_Result.append(f"{key}번 포트에 {value}회 연결됨")
             
 #취약점검 탭 메소드
+    #버튼을 누르면 실행
     def weak_GoFunc(self):
         self.weak_Result.setText("")
         url = self.weak_URLInput.text()
@@ -148,6 +150,7 @@ class WindowClass(QMainWindow, form_class) :
         for s in result:
             self.weak_Result.append(s)
     
+    #리스트 파일을 불러와서 실행
     def weak_GoListFunc(self):
         self.weak_Result.setText("")
         filename = QFileDialog.getOpenFileName(self, caption='Open List', directory='./', filter='txt (*.txt)')
@@ -161,6 +164,7 @@ class WindowClass(QMainWindow, form_class) :
             for s in result:
                 self.weak_Result.append(s)
     
+    #로그 저장
     def weak_SaveLogFunc(self):
         result = self.weak_Result.toPlainText()
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./robots.txt', filter='txt (*.txt)')
@@ -169,6 +173,7 @@ class WindowClass(QMainWindow, form_class) :
         with open(filename[0], 'w') as f:
             f.write(result)
     
+    #로그 엑셀로 저장
     def weak_SaveExcelFunc(self):
         filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./result.xlsx', filter='Excel file (*.xlsx)')
         if filename == "":
