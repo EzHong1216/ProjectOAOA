@@ -8,8 +8,7 @@ def get_whois(url):
       #print(type(domain_info))
       return(str(domain_info))
    except whois.parser.PywhoisError :
-      return("domain lookup fail")
-
+      return("도메인 조회에 실패하였습니다.")
 
 #메인에서 실행 - 텍스트 파일로 정리
 # 저장폴더 열기

@@ -219,7 +219,7 @@ class WindowClass(QMainWindow, form_class) :
         
 #빠른 포트스캔 탭 메소드
     def fastport_GoFunc(self):
-        self.fastport_Result.setText("Start. Wait...")
+        self.fastport_Result.setText("주요 포트 스캔을 시작합니다 약 30초 소요 예정입니다.")
         url = self.fastport_IPInput.text()
         QTest.qWait(1)
         result = Fastscan(url)

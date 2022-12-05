@@ -49,8 +49,8 @@ def Fastscan(url):
     port = [80, 20, 21, 22, 23, 25, 53, 5357, 110, 123, 161, 443, 1433, 3306, 1521, 8080, 135, 139, 137, 138, 445, 514, 8443, 3389, 8090, 42, 70, 79, 88, 118, 156, 220]
     host = url
 
-    result.append("IP and Port Scanning...")
-    result.append('[◈] IP → '+ipscan)
+    result.append("IP and Port 스캐닝...")
+    result.append('IP 스캔 → '+ipscan)
     QTest.qWait(1)
     
     target_ip = socket.gethostbyname(host)
@@ -64,9 +64,10 @@ def Fastscan(url):
             opened_ports.append(str(p))
 
     for i in opened_ports:
-        result.append('[◈] Open Port : '+ i)
+        result.append('연결된 포트 :'+ i)
 
     return result
+
 
 # 해야 할것 , 소켓 데이터 출력
 # 메인으로 리턴값 만들것
