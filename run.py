@@ -8,6 +8,7 @@ from get_robot import get_robot
 from domain import get_domain_name
 from port_scan import scan_port, is_Valid_Port
 from web_weak_scan import web_weak_scanner
+from scan_vulnerability import vulnerscan
 
 #UI파일 연결
 form_class = uic.loadUiType("./PortScanner.ui")[0]
@@ -48,6 +49,10 @@ class WindowClass(QMainWindow, form_class) :
         self.weak_LogSaveButton.clicked.connect(self.weak_SaveLogFunc)
         self.weak_LogExcelButton.clicked.connect(self.weak_SaveExcelFunc)
         self.weak_scanner = web_weak_scanner()
+        
+        #웹 보안 취약점검 탭 기능 연결
+        self.vulner_GoButton.clicked.connect(self.vulner_GoFunc)
+        self.vulner_Input.returnPressed.connect(self.vulner_GoFunc)
     
 #Whois 탭 메소드
     #입력창에 있는 값으로 whois 결과 추출
@@ -164,6 +169,19 @@ class WindowClass(QMainWindow, form_class) :
         if filename == "":
             return
         self.weak_scanner.save_Excel(filename[0])
+
+#웹 보안 취약점검 탭 메소드
+    def vulner_GoFunc(self):
+        self.vulner_Result.setText("Start. Wait...")
+        url = self.vulner_Input.text()
+        if url == '':
+            return
+        if not url.startswith("http"):
+            url = "http://" + url
+        QTest.qWait(1)
+        result = vulnerscan(url)
+        for s in result:
+            self.vulner_Result.append(s)
 
 def main():
     #QApplication : 프로그램을 실행시켜주는 클래스
