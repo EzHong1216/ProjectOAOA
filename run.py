@@ -58,6 +58,7 @@ class WindowClass(QMainWindow, form_class) :
         #디렉토리 접근 점검 탭 기능 연결
         self.directory_GoButton.clicked.connect(self.directory_GoFunc)
         self.directory_Input.returnPressed.connect(self.directory_GoFunc)
+        self.directory_SaveButton.clicked.connect(self.directory_SaveFunc)
         
         #빠른 포트스캔 탭 기능 연결
         self.fastport_GoButton.clicked.connect(self.fastport_GoFunc)
@@ -216,7 +217,13 @@ class WindowClass(QMainWindow, form_class) :
             if not data: break
 
         f.close()
-        
+    def directory_SaveFunc(self):
+        filename = QFileDialog.getSaveFileName(self, caption='Save Result', directory='./directory_result.txt', filter='txt (*.txt)')
+        if filename == "":
+            return
+        with open(filename[0], 'w') as f:
+            f.write(self.directory_Result.toPlainText())
+
 #빠른 포트스캔 탭 메소드
     def fastport_GoFunc(self):
         self.fastport_Result.setText("주요 포트 스캔을 시작합니다 약 30초 소요 예정입니다.")
